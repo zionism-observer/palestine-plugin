@@ -27,6 +27,16 @@ const openArchive = async () => {
   });
 };
 
+const openPalestineLove = async () => {
+  await createTab({
+    url: "https://palestinelove.org/api/v1/websites/archival",
+  });
+};
+
 document
   .getElementById("redirectButton")
   .addEventListener("click", openArchive);
+
+document
+  .getElementById("learnMoreButton")
+  .addEventListener("click", openPalestineLove);
