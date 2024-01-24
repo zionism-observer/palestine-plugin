@@ -1,9 +1,9 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
   "name": "Zionism Observer Research Archiver",
   "version": "1.0",
   "description": "Redirects to Zionism Oberserver and fills the archive form with the current URL",
-  "action": {
+  "browser_action": {
     "default_popup": "index.html"
   },
   "permissions": ["activeTab", "tabs"],
