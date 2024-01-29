@@ -1,4 +1,4 @@
-// TODO: Switch to Typescript
+// @todo: Switch to Typescript
 const getActiveTab = () => {
   return new Promise(function (resolve, reject) {
     chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
@@ -19,8 +19,6 @@ const createTab = (options) => {
 
 const openArchive = async () => {
   const activeTab = await getActiveTab();
-  console.log("activeTab", activeTab);
-
   const currentUrl = activeTab.url;
   await createTab({
     url: "https://zionism.observer/archive?source=" + currentUrl,
