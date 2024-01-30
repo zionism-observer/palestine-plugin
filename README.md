@@ -2,6 +2,8 @@
 
 The Palestine Plugin helps connect people with web-based Palestine resources.
 
+[![Ceasefire Now](https://badge.techforpalestine.org/default)](https://techforpalestine.org/learn-more)
+
 ## Tools for Crowdsourcing Palestine Research
 
 The Palestine Plugin makes it easier to contribute information to Palestine-related projects.
