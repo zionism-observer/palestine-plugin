@@ -1,4 +1,21 @@
 // TODO: Switch to Typescript
+const sites = [
+  {
+    name: "Zionism Observer",
+    buttonText: "Archive a quote",
+    formUrl: "https://zionism.observer/archive",
+    urlParam: "source",
+    textParam: "quote",
+  },
+  {
+    name: "Palestine Love",
+    buttonText: "Contribute a resource",
+    formUrl: "https://palestinelove.org/contribute",
+    urlParam: "url",
+    textParam: "description",
+  },
+];
+
 const getActiveTab = () => {
   return new Promise(function (resolve, reject) {
     chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
@@ -17,26 +34,25 @@ const createTab = (options) => {
   });
 };
 
-const openArchive = async () => {
+const getFormUrl = async (formUrl, urlParam) => {
   const activeTab = await getActiveTab();
-  console.log("activeTab", activeTab);
-
   const currentUrl = activeTab.url;
-  await createTab({
-    url: "https://zionism.observer/archive?source=" + currentUrl,
-  });
+
+  return `${formUrl}?${urlParam}=${currentUrl}`;
 };
 
-const openPalestineLove = async () => {
-  await createTab({
-    url: "https://palestinelove.org/api/v1/websites/archival",
+const buttonContainer = document.getElementById("button-container");
+sites.forEach((site) => {
+  const siteElement = document.createElement("div");
+
+  siteElement.innerHTML = `
+  <h3>${site.name}</h3>
+  <button>${site.buttonText}</button>
+  `;
+  buttonContainer.appendChild(siteElement);
+  siteElement.addEventListener("click", async () => {
+    getFormUrl(site.formUrl, site.urlParam, site.textParam).then((url) =>
+      createTab({ url })
+    );
   });
-};
-
-document
-  .getElementById("redirectButton")
-  .addEventListener("click", openArchive);
-
-document
-  .getElementById("learnMoreButton")
-  .addEventListener("click", openPalestineLove);
+});
