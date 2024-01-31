@@ -2,14 +2,14 @@
 const sites = [
   {
     name: "Zionism Observer",
-    buttonText: "Archive a quote",
+    buttonText: "Archive Quote",
     formUrl: "https://zionism.observer/archive",
     urlParam: "source",
     textParam: "quote",
   },
   {
     name: "Palestine Love",
-    buttonText: "Contribute a resource",
+    buttonText: "Contribute Resource",
     formUrl: "https://palestinelove.org/contribute",
     urlParam: "url",
     textParam: "description",
