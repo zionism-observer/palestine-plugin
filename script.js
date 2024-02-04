@@ -1,4 +1,3 @@
-// TODO: Switch to Typescript
 const sites = [
   {
     name: "Zionism Observer",
@@ -17,9 +16,9 @@ const sites = [
 ];
 
 const getActiveTab = () => {
-  return new Promise(function (resolve, reject) {
-    chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-      if (tabs != null && 0 < tabs.length) {
+  return new Promise((resolve, reject) => {
+    chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
+      if (tabs != null && tabs.length > 0) {
         resolve(tabs[0]);
       } else {
         reject();
@@ -41,18 +40,39 @@ const getFormUrl = async (formUrl, urlParam) => {
   return `${formUrl}?${urlParam}=${currentUrl}`;
 };
 
-const buttonContainer = document.getElementById("button-container");
-sites.forEach((site) => {
+const createButton = (site) => {
+  const buttonContainer = document.getElementById("button-container");
   const siteElement = document.createElement("div");
-
   siteElement.innerHTML = `
-  <h3>${site.name}</h3>
-  <button>${site.buttonText}</button>
+    <h3>${site.name}</h3>
+    <button>${site.buttonText}</button>
   `;
   buttonContainer.appendChild(siteElement);
+
   siteElement.addEventListener("click", async () => {
-    getFormUrl(site.formUrl, site.urlParam, site.textParam).then((url) =>
-      createTab({ url })
-    );
+    const url = await getFormUrl(site.formUrl, site.urlParam, site.textParam);
+    createTab({ url });
   });
+};
+
+const initializeButtons = () => {
+  sites.forEach(createButton);
+};
+
+const initializeSwitch = () => {
+  const popoverSwitch = document.getElementById("popoverSwitch");
+
+  chrome.storage.sync.get("runContentScript", (data) => {
+    popoverSwitch.checked = data.runContentScript || false;
+  });
+
+  popoverSwitch.addEventListener("change", () => {
+    const isChecked = popoverSwitch.checked;
+    chrome.storage.sync.set({ runContentScript: isChecked });
+  });
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  initializeButtons();
+  initializeSwitch();
 });
